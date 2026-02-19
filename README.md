@@ -1,202 +1,169 @@
-#📘 Online Exam Question Bank & Test Paper Assembly System (Hibernate)
+# 📘 Online Exam Question Bank & Test Paper Assembly System (Hibernate)
 
 ---
 
-# 📌 Overview
+## 📌 Overview
 
-The Online Exam Question Bank & Test Paper Assembly System is a console-based Java application developed using:
+The **Online Exam Question Bank & Test Paper Assembly System** is a console-based Java application developed using **Core Java, Hibernate ORM, and Oracle Database**.
 
-Core Java
+This system allows an examination cell to:
 
-Hibernate ORM
+- Maintain a reusable **question bank**
+- Assemble test papers using **difficulty-based blueprints**
+- Publish and archive **test papers**
+- Protect the integrity of **published exams**
+- Manage questions using **Hibernate transactions**
 
-Oracle Database
+The project follows a clean **Layered MVC Architecture**:
 
-This system helps an examination cell to:
+**Bean → DAO → Service → Controller**
 
-Maintain a reusable question bank
+---
 
-Assemble test papers using difficulty-based blueprints
+## 🚀 Features
 
-Publish and archive test papers
+### 🔹 Question Management
 
-Ensure integrity of published exams
+- **Add** new question  
+- **View** question details  
+- **View all** questions  
+- **Remove** question (with validation)
 
-Handle data using ORM-based transactions
+### 🔹 Test Paper Management
 
-Architecture Followed
+- **Create Test Paper** (Transactional Operation)  
+- **Publish Test Paper** (Transactional Operation)  
+- **Archive Test Paper**
 
-Bean (Entity) → DAO → Service → Controller
+### 🔹 Validation & Data Integrity
 
-# 🚀 Features
-* 🔹 Question Management *
+- Prevent deletion of questions used in **PUBLISHED** papers  
+- Prevent publishing invalid test papers  
+- Validate **blueprint difficulty distribution**  
+- Ensure sufficient **ACTIVE** questions before paper creation  
 
-Add new question
+---
 
-View question details
+## 🛠 Technologies Used
 
-View all questions
+- **Java (Core Java)**
+- **Hibernate ORM**
+- **Oracle Database**
+- **HQL**
+- **Console-Based UI**
+- **MVC Architecture**
 
-Remove question (with validation)
+---
 
-* 🔹 Test Paper Management *
+## 📂 Project Structure
 
-Create Test Paper (Transactional Operation)
+src/  
+└── com.exam  
+├── app  
+│   └── ExamMain.java  
+│  
+├── service  
+│   └── ExamService.java  
+│  
+├── bean  
+│   ├── Question.java  
+│   └── TestPaper.java  
+│  
+├── dao  
+│   ├── QuestionDAO.java  
+│   └── TestPaperDAO.java  
+│  
+└── util  
+    ├── HibernateUtil.java  
+    ├── ValidationException.java  
+    ├── QuestionPoolInsufficientException.java  
+    └── QuestionInPublishedPaperException.java  
 
-Publish Test Paper (Transactional Operation)
+---
 
-Archive Test Paper
+## 🧠 System Architecture
 
-* 🔹 Validation & Data Integrity *
+The application follows a **Layered Architecture Pattern**:
 
-Prevent deletion of questions used in PUBLISHED papers
+| **Layer**             | **Responsibility**                              |
+|-----------------------|-------------------------------------------------|
+| **Bean Layer**        | Represents database entities (Hibernate mapped) |
+| **DAO Layer**         | Handles Hibernate CRUD operations               |
+| **Service Layer**     | Contains business logic and validations          |
+| **Controller Layer**  | Manages console interaction                     |
 
-Prevent publishing invalid test papers
+---
 
-Validate difficulty blueprint distribution
+## 🔄 Transactional Operations
 
-Ensure sufficient ACTIVE questions before paper creation
+The following operations are executed inside **Hibernate transactions**:
 
-# 🛠 Technologies Used
+- **Create Test Paper**
+- **Publish Test Paper**
 
-Java (Core Java)
+Transactions ensure:
 
-Hibernate ORM
+- **Atomicity**
+- **Consistency**
+- **Automatic Rollback on Failure**
 
-JPA Annotations
+Hibernate manages sessions using `Session` and `Transaction`.
 
-Oracle Database
+---
 
-SQL
+## 📋 Business Rules Enforced
 
-Console-Based UI
+- Question ID must be **unique**
+- Difficulty must be **EASY / MEDIUM / HARD**
+- Marks must be **positive**
+- Cannot publish a **non-DRAFT** paper
+- Cannot delete a question used in a **PUBLISHED** paper
+- Must have enough **ACTIVE** questions to create paper
+- Blueprint total must match **required total marks**
 
-MVC Architecture
+---
 
-# 📂 Project Structure
-src/
-└── com.kce
-    ├── main
-    │   └── ExamMain.java
-    │
-    ├── service
-    │   └── ExamService.java
-    │
-    ├── bean
-    │   ├── Question.java
-    │   └── TestPaper.java
-    │
-    ├── dao
-    │   ├── QuestionDAO.java
-    │   └── TestPaperDAO.java
-    │
-    └── util
-        ├── HibernateUtil.java
-        ├── ValidationException.java
-        ├── QuestionPoolInsufficientException.java
-        └── QuestionInPublishedPaperException.java
+## 📊 Status Lifecycle
 
-# 🧠 System Architecture
-Layer	Responsibility
-Bean (Entity)	Maps Java classes to DB tables using annotations
-DAO Layer	Performs ORM-based CRUD using Hibernate
-Service Layer	Business logic & validations
-Controller Layer	Console interaction
-# 🔄 Transactional Operations
+### Question Status
+- **ACTIVE**
+- **INACTIVE**
 
-The following operations are executed inside Hibernate-managed transactions:
+### Test Paper Status
+**DRAFT → PUBLISHED → ARCHIVED**
 
-Create Test Paper
+---
 
-Publish Test Paper
+## 🧪 Sample Use Case
 
-Why Transactions?
+**Example Blueprint**
 
-Atomicity
+- **Paper Title:** Hibernate Practice Test  
+- **Subject:** JAVA  
+- **Total Marks:** 10  
+- **Difficulty Mix:** EASY = 4, MEDIUM = 6, HARD = 0  
 
-Consistency
+**System Workflow**
 
-Rollback on failure
+1. Validate inputs  
+2. Check question availability  
+3. Fetch questions using HQL  
+4. Store paper as **DRAFT**  
+5. Allow publishing after validation  
 
-Data integrity
+---
 
-Hibernate explicitly manages:
+## ▶️ How to Run
 
-beginTransaction()
+1. Configure database details in **hibernate.cfg.xml**  
+2. Ensure entity mappings are correct  
+3. Build the project  
+4. Run **ExamMain**  
+5. Perform operations via console  
 
-commit()
+---
 
-rollback()
-
-# 📋 Business Rules Enforced
-
-Question ID must be unique
-
-Difficulty must be EASY / MEDIUM / HARD
-
-Marks must be positive
-
-Cannot publish a non-DRAFT paper
-
-Cannot delete a question used in a PUBLISHED paper
-
-Must have sufficient ACTIVE questions
-
-Blueprint total must equal Total Marks
-
-# 📊 Status Lifecycle
-* Question Status *
-
-ACTIVE
-
-INACTIVE
-
-* Test Paper Status *
-
-DRAFT → PUBLISHED → ARCHIVED
-
-# 🧪 Sample Use Case
-Example Blueprint
-
-Paper Title : DBMS Practice Test
-
-Subject : DBMS
-
-Total Marks : 10
-
-Difficulty Distribution
-
-EASY = 4
-
-MEDIUM = 6
-
-HARD = 0
-
-System Flow
-
-Validate input data
-
-Check ACTIVE question availability
-
-Select questions based on blueprint
-
-Store paper as DRAFT
-
-Allow publishing after validation
-
-# ▶️ How to Run
-
-Configure DB details in hibernate.cfg.xml
-
-Ensure required tables / sequences exist
-
-Compile the project
-
-Run ExamMain
-
-Perform operations via console
-
-# 🖥 Output
+## 🖥 Sample Output
 
 **Adding New Question**
 
@@ -208,25 +175,17 @@ Perform operations via console
 
 **Exit**
 
-<img width="1543" height="280" alt="image" src="https://github.com/user-attachments/assets/72af44e7-efde-4a9f-a2dc-cc14da32c569" />
+<img width="1543" height="280" alt="image" src="https://github.com/user-attachments/assets/72af44e7-efde-4a9f-a2dc-cc14da32c569" 
 
+---
 
-# 🎯 Key Concepts Demonstrated
+## 🎯 Key Concepts Demonstrated
 
-Hibernate ORM Mapping
-
-JPA Annotations
-
-Session & Transaction Management
-
-DAO Design Pattern
-
-Custom Exception Handling
-
-Blueprint-Based Paper Assembly
-
-Data Integrity Enforcement
-
-Layered Architecture Design
-
-Oracle Sequence-Based ID Generation
+- **Hibernate ORM Mapping**
+- **Session & Transaction Management**
+- **DAO Pattern**
+- **Custom Exception Handling**
+- **HQL Queries**
+- **Blueprint-Based Paper Assembly**
+- **Data Integrity Enforcement**
+- **Layered System Design**
