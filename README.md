@@ -175,7 +175,7 @@ Hibernate manages sessions using `Session` and `Transaction`.
 
 **Exit**
 
-<img width="1543" height="280" alt="image" src="https://github.com/user-attachments/assets/72af44e7-efde-4a9f-a2dc-cc14da32c569" 
+<img width="1543" height="280" alt="image" src="https://github.com/user-attachments/assets/72af44e7-efde-4a9f-a2dc-cc14da32c569"  />
 
 ---
 
