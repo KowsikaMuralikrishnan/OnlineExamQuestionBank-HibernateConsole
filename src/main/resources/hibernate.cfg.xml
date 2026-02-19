@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Oracle dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+
+        <property name="hibernate.connection.url">
+            jdbc:oracle:thin:@localhost:1521:xe
+        </property>
+
+        <property name="hibernate.connection.username">test</property>
+        <property name="hibernate.connection.password">test</property>
+
+        <!-- Hibernate settings -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- Entity mappings -->
+        <mapping class="com.kce.bean.Question"/>
+        <mapping class="com.kce.bean.TestPaper"/>
+
+    </session-factory>
+</hibernate-configuration>
